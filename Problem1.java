@@ -1,98 +1,73 @@
 public class Problem1 {
 
-    static class PiggyBank {
+    static class Character {
 
-        // Savings cannot be accessed directly
-        private double savings;
+        // Current health
+        private int health;
 
-        // ID can be assigned only once
-        private final String id;
+        // Maximum health cannot be changed
+        private final int maxHealth;
 
         // Constructor
-        public PiggyBank(String id) {
+        public Character(int maxHealth) {
 
-            this.id = id;
-            this.savings = 0;
+            this.maxHealth = maxHealth;
+            this.health = maxHealth;
         }
 
-        // Deposit money
-        public void deposit(double amount) {
-
-            if (amount > 0) {
-
-                savings += amount;
-
-                System.out.println(
-                    "Deposited: " + amount
-                );
-
-            } else {
-
-                System.out.println(
-                    "Deposit rejected: amount must be positive"
-                );
-            }
-        }
-
-        // Withdraw money
-        public void withdraw(double amount) {
+        // Take damage
+        public void takeDamage(int amount) {
 
             if (amount <= 0) {
+                System.out.println("Damage must be positive");
+                return;
+            }
 
-                System.out.println(
-                    "Withdrawal rejected: amount must be positive"
-                );
+            // Reduce health
+            health = health - amount;
 
-            } else if (amount > savings) {
-
-                System.out.println(
-                    "Withdrawal rejected: insufficient savings"
-                );
-
-            } else {
-
-                savings -= amount;
-
-                System.out.println(
-                    "Withdrawn: " + amount
-                );
+            // Health cannot go below 0
+            if (health < 0) {
+                health = 0;
             }
         }
 
-        // Read-only access to savings
-        public double getSavings() {
+        // Heal character
+        public void heal(int amount) {
 
-            return savings;
+            if (amount <= 0) {
+                System.out.println("Healing amount must be positive");
+                return;
+            }
+
+            // Increase health
+            health = health + amount;
+
+            // Health cannot exceed maximum
+            if (health > maxHealth) {
+                health = maxHealth;
+            }
         }
 
-        // Optional getter for ID
-        public String getId() {
-
-            return id;
+        // Read-only access to health
+        public int getHealth() {
+            return health;
         }
     }
 
     public static void main(String[] args) {
 
-        PiggyBank pb =
-            new PiggyBank("PB-1");
+        Character c = new Character(100);
 
-        pb.deposit(100);
+        System.out.println("Initial health: " + c.getHealth());
 
-        System.out.println(
-            "Savings: " + pb.getSavings()
-        );
+        c.takeDamage(30);
+        System.out.println("After 30 damage: " + c.getHealth());
 
-        pb.withdraw(30);
+        c.heal(50);
+        System.out.println("After healing 50: " + c.getHealth());
 
-        System.out.println(
-            "Savings: " + pb.getSavings()
-        );
-
-        pb.withdraw(500);
-
-        System.out.println(
-            "Savings: " + pb.getSavings()
-        );
+        c.takeDamage(150);
+        System.out.println("After 150 damage: " + c.getHealth());
     }
 }

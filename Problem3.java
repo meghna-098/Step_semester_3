@@ -1,42 +1,60 @@
 public class Problem3 {
 
-    static class NameTag {
+    static class PasswordChecker {
 
-        // Final fields
-        private final String firstName;
-        private final String lastName;
+        // Password is private and cannot be changed
+        private final String password;
 
         // Constructor
-        public NameTag(String fullName) {
+        public PasswordChecker(String password) {
 
-            // Split the full name
-            String[] parts =
-                fullName.split(" ");
-
-            // Store first name
-            this.firstName = parts[0];
-
-            // Store last name
-            this.lastName = parts[1];
+            this.password = password;
         }
 
-        // Return nickname
-        public String getNickname() {
+        // Return password strength
+        public String getStrength() {
 
-            return firstName
-                + " "
-                + lastName.charAt(0)
-                + ".";
+            int length = password.length();
+
+            if (length < 6) {
+
+                return "Weak";
+
+            } else if (length <= 9) {
+
+                return "Medium";
+
+            } else {
+
+                return "Strong";
+            }
         }
     }
 
     public static void main(String[] args) {
 
-        NameTag tag =
-            new NameTag("Maria Gomez");
+        PasswordChecker pc =
+            new PasswordChecker("abcd");
 
         System.out.println(
-            tag.getNickname()
+            "Password strength: "
+            + pc.getStrength()
+        );
+
+        PasswordChecker pc2 =
+            new PasswordChecker("abcdefgh");
+
+        System.out.println(
+            "Password strength: "
+            + pc2.getStrength()
+        );
+
+        PasswordChecker pc3 =
+            new PasswordChecker("abcdefghij");
+
+        System.out.println(
+            "Password strength: "
+            + pc3.getStrength()
         );
     }
 }

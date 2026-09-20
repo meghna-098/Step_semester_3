@@ -1,67 +1,83 @@
 public class Problem4 {
 
-    static class Locker {
+    static class TrafficLight {
 
-        // Private combination
-        private String combination;
+        // Current color
+        private String color;
 
-        // Final locker number
-        private final int lockerNumber;
+        // ID cannot be changed
+        private final String id;
 
         // Constructor
-        public Locker(
-                int lockerNumber,
-                String combination) {
+        public TrafficLight(String id) {
 
-            this.lockerNumber = lockerNumber;
-            this.combination = combination;
+            this.id = id;
+
+            // Every new traffic light starts at RED
+            this.color = "RED";
         }
 
-        // Change combination
-        public void changeCode(
-                String currentCode,
-                String newCode) {
+        // Move to the next color
+        public void next() {
 
-            // First verify old code
-            if (currentCode.equals(combination)) {
+            if (color.equals("RED")) {
 
-                // Only then change the code
-                combination = newCode;
+                color = "GREEN";
 
-                System.out.println(
-                    "Code changed successfully"
-                );
+            } else if (color.equals("GREEN")) {
 
-            } else {
+                color = "YELLOW";
 
-                System.out.println(
-                    "Code change rejected: wrong current code"
-                );
+            } else if (color.equals("YELLOW")) {
+
+                color = "RED";
             }
         }
 
-        // We intentionally DO NOT create
-        // getCombination().
+        // Read current color
+        public String getColor() {
+
+            return color;
+        }
+
+        // Optional ID getter
+        public String getId() {
+
+            return id;
+        }
     }
 
     public static void main(String[] args) {
 
-        Locker l =
-            new Locker(
-                101,
-                "1234"
-            );
+        TrafficLight t =
+            new TrafficLight("TL-9");
 
-        // Correct old code
-        l.changeCode(
-            "1234",
-            "5678"
+        System.out.println(
+            t.getColor()
         );
 
-        // Wrong old code
-        l.changeCode(
-            "0000",
-            "9999"
+        t.next();
+
+        System.out.println(
+            t.getColor()
+        );
+
+        t.next();
+
+        System.out.println(
+            t.getColor()
+        );
+
+        t.next();
+
+        System.out.println(
+            t.getColor()
+        );
+
+        t.next();
+
+        System.out.println(
+            t.getColor()
         );
     }
 }

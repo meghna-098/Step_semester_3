@@ -1,72 +1,93 @@
 public class Problem2 {
 
-    static class Scorecard {
+    static class Playlist {
 
         // Private array
-        private boolean[] results;
+        private String[] songs;
 
-        // Number of answers recorded
-        private int answerCount;
+        // Number of songs currently added
+        private int songCount;
 
         // Constructor
-        public Scorecard(int totalQuestions) {
+        public Playlist(int maxSongs) {
 
-            results = new boolean[totalQuestions];
-
-            answerCount = 0;
+            songs = new String[maxSongs];
+            songCount = 0;
         }
 
-        // Record next answer
-        public void recordAnswer(boolean correct) {
+        // Add a song
+        public void addSong(String song) {
 
-            // Check if all questions are already recorded
-            if (answerCount >= results.length) {
+            // Check whether playlist is full
+            if (songCount >= songs.length) {
 
                 System.out.println(
-                    "Answer rejected: all questions are already recorded"
+                    "Cannot add song: playlist is full"
                 );
 
                 return;
             }
 
-            // Store answer
-            results[answerCount] = correct;
+            // Add song
+            songs[songCount] = song;
 
-            // Move to next position
-            answerCount++;
+            // Increase count
+            songCount++;
         }
 
-        // Return total correct answers
-        public int getScore() {
+        // Return a copy of the songs
+        public String[] getSongs() {
 
-            int score = 0;
+            // Create a new array containing only
+            // the songs that were actually added
+            String[] copy = new String[songCount];
 
-            for (int i = 0; i < answerCount; i++) {
-
-                if (results[i]) {
-                    score++;
-                }
+            // Copy the contents
+            for (int i = 0; i < songCount; i++) {
+                copy[i] = songs[i];
             }
 
-            return score;
+            return copy;
+        }
+
+        // Return number of songs
+        public int getSongCount() {
+            return songCount;
         }
     }
 
     public static void main(String[] args) {
 
-        Scorecard sc =
-            new Scorecard(4);
+        Playlist p = new Playlist(10);
 
-        sc.recordAnswer(true);
-        sc.recordAnswer(true);
-        sc.recordAnswer(false);
-        sc.recordAnswer(true);
+        p.addSong("Song A");
+        p.addSong("Song B");
 
         System.out.println(
-            "Score: " + sc.getScore()
+            "Song count: " + p.getSongCount()
         );
 
-        // Extra answer - rejected
-        sc.recordAnswer(true);
+        String[] copy = p.getSongs();
+
+        System.out.println("Songs before modification:");
+
+        for (String song : copy) {
+            System.out.println(song);
+        }
+
+        // Modify the returned array
+        copy[0] = "Hacked";
+
+        System.out.println(
+            "Modified copy[0]: " + copy[0]
+        );
+
+        // Get a fresh copy from playlist
+        String[] actualSongs = p.getSongs();
+
+        System.out.println(
+            "Playlist's first song: "
+            + actualSongs[0]
+        );
     }
 }
