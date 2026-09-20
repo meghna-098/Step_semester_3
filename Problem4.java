@@ -1,8 +1,8 @@
 public class Problem4 {
 
     // Helper method
-    // Calculates the average of one row
-    static double rowAverage(int[] row) {
+    // Calculates average of one row
+    private static double rowAverage(int[] row) {
 
         int sum = 0;
 
@@ -11,39 +11,44 @@ public class Problem4 {
             sum = sum + value;
         }
 
-        // Convert sum to double before division
-        // so that we get a decimal average.
+        // Convert to double before division
         return (double) sum / row.length;
     }
 
-    // Classifies every row
-    static String classifyRows(int[][] seatingScores, int threshold) {
+    // Classify every match
+    static String classifyMatches(
+            int[][] runsPerOver,
+            int threshold) {
 
-        StringBuilder result = new StringBuilder();
+        StringBuilder result =
+                new StringBuilder();
 
-        // Visit every row
-        for (int i = 0; i < seatingScores.length; i++) {
+        // Visit every match
+        for (int i = 0;
+             i < runsPerOver.length;
+             i++) {
 
             // Calculate average exactly once
-            double average = rowAverage(seatingScores[i]);
+            double average =
+                    rowAverage(runsPerOver[i]);
 
-            // Add separator between rows
+            // Add separator between results
             if (i > 0) {
                 result.append(" | ");
             }
 
-            // Decide which zone the row belongs to
-            if (average < threshold) {
+            // Decide category
+            if (average >= threshold) {
 
-                result.append("Row ")
+                result.append("Match ")
                       .append(i)
-                      .append(": Quiet Zone");
+                      .append(": Power Surge");
 
             } else {
 
-                result.append("Row ")
+                result.append("Match ")
                       .append(i)
-                      .append(": Buzzing Zone");
+                      .append(": Normal");
             }
         }
 
@@ -52,18 +57,19 @@ public class Problem4 {
 
     public static void main(String[] args) {
 
-        int[][] seatingScores = {
-            {40, 50, 45},
-            {85, 90, 95},
-            {30, 20, 25}
+        int[][] runsPerOver = {
+            {4, 6, 8},
+            {10, 12, 14},
+            {2, 3, 1}
         };
 
-        int threshold = 60;
+        int threshold = 8;
 
-        String result = classifyRows(
-            seatingScores,
-            threshold
-        );
+        String result =
+                classifyMatches(
+                    runsPerOver,
+                    threshold
+                );
 
         System.out.println(result);
     }

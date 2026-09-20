@@ -1,197 +1,217 @@
-
 import java.util.Arrays;
 
 public class Problem5 {
 
-    static class Candidate
-            implements Comparable<Candidate> {
+    // ==================================================
+    // PLAYER CLASS
+    // ==================================================
 
-        // Private fields for encapsulation
+    static class Player
+            implements Comparable<Player> {
+
+        // ----------------------------------------------
+        // Private fields
+        // ----------------------------------------------
+
         private String name;
-        private double cgpa;
-        private int codingScore;
+        private int matchesPlayed;
+        private double battingAverage;
+        private boolean injured;
 
+        // ----------------------------------------------
         // Constructor
-        public Candidate(
+        // ----------------------------------------------
+
+        public Player(
                 String name,
-                double cgpa,
-                int codingScore) {
+                int matchesPlayed,
+                double battingAverage,
+                boolean injured) {
 
             this.name = name;
-            this.cgpa = cgpa;
-            this.codingScore = codingScore;
+            this.matchesPlayed = matchesPlayed;
+            this.battingAverage = battingAverage;
+            this.injured = injured;
         }
 
-        // ------------------------------------------------
-        // Eligibility Method 1
-        // CGPA-only check
-        // ------------------------------------------------
-        static boolean isEligible(double cgpa) {
+        // ----------------------------------------------
+        // Overloaded method 1
+        // Established-player rule
+        // ----------------------------------------------
 
-            return cgpa >= 7.5;
+        static boolean isDraftable(
+                int matchesPlayed) {
+
+            return matchesPlayed >= 10;
         }
 
-        // ------------------------------------------------
-        // Eligibility Method 2
-        // CGPA + Coding Score check
-        // ------------------------------------------------
-        static boolean isEligible(
-                double cgpa,
-                int codingScore) {
+        // ----------------------------------------------
+        // Overloaded method 2
+        // Combined experience + fitness rule
+        // ----------------------------------------------
 
-            return cgpa >= 6.5
-                    && cgpa < 7.5
-                    && codingScore >= 60;
+        static boolean isDraftable(
+                int matchesPlayed,
+                boolean injured) {
+
+            return matchesPlayed >= 5
+                    && !injured;
         }
 
-        // ------------------------------------------------
-        // Calculate composite score
-        // ------------------------------------------------
-        double getCompositeScore() {
+        // ----------------------------------------------
+        // Check this particular player's eligibility
+        // ----------------------------------------------
 
-            return cgpa * 10
-                    + codingScore * 0.5;
-        }
+        boolean isDraftable() {
 
-        // ------------------------------------------------
-        // Check whether this candidate is eligible
-        // ------------------------------------------------
-        boolean isEligible() {
+            // Established players qualify through
+            // the experience-only rule.
+            if (isDraftable(matchesPlayed)) {
+                return true;
+            }
 
-            // Candidate can qualify through either rule
-            return isEligible(cgpa)
-                    || isEligible(cgpa, codingScore);
-        }
-
-        // ------------------------------------------------
-        // compareTo for descending order
-        // ------------------------------------------------
-        @Override
-        public int compareTo(Candidate other) {
-
-            return Double.compare(
-                    other.getCompositeScore(),
-                    this.getCompositeScore()
+            // Other players must satisfy the
+            // combined rule.
+            return isDraftable(
+                    matchesPlayed,
+                    injured
             );
         }
 
-        // ------------------------------------------------
-        // Getter for name
-        // ------------------------------------------------
-        public String getName() {
+        // ----------------------------------------------
+        // compareTo()
+        // ----------------------------------------------
 
+        @Override
+        public int compareTo(Player other) {
+
+            // Higher batting average should come first.
+            return Double.compare(
+                    other.battingAverage,
+                    this.battingAverage
+            );
+        }
+
+        // ----------------------------------------------
+        // Getter for name
+        // ----------------------------------------------
+
+        public String getName() {
             return name;
         }
     }
 
-    // ----------------------------------------------------
-    // Shortlist and rank candidates
-    // ----------------------------------------------------
-    static String shortlistAndRank(
-            Candidate[] candidates) {
+    // ==================================================
+    // DRAFT AND RANK METHOD
+    // ==================================================
 
-        // -----------------------------------------------
-        // Step 1: Count eligible candidates
-        // -----------------------------------------------
+    static String draftAndRank(Player[] players) {
+
+        // ----------------------------------------------
+        // Step 1: Count draftable players
+        // ----------------------------------------------
 
         int count = 0;
 
-        for (Candidate candidate : candidates) {
+        for (Player player : players) {
 
-            if (candidate.isEligible()) {
+            if (player.isDraftable()) {
                 count++;
             }
         }
 
-        // -----------------------------------------------
-        // Step 2: Create array of correct size
-        // -----------------------------------------------
+        // ----------------------------------------------
+        // Step 2: Create array for draftable players
+        // ----------------------------------------------
 
-        Candidate[] shortlisted =
-                new Candidate[count];
+        Player[] draftable =
+                new Player[count];
 
-        // -----------------------------------------------
-        // Step 3: Put eligible candidates into array
-        // -----------------------------------------------
+        // ----------------------------------------------
+        // Step 3: Copy eligible players
+        // ----------------------------------------------
 
         int index = 0;
 
-        for (Candidate candidate : candidates) {
+        for (Player player : players) {
 
-            if (candidate.isEligible()) {
+            if (player.isDraftable()) {
 
-                shortlisted[index] = candidate;
+                draftable[index] = player;
+
                 index++;
             }
         }
 
-        // -----------------------------------------------
-        // Step 4: Sort candidates
-        // -----------------------------------------------
+        // ----------------------------------------------
+        // Step 4: Sort using compareTo()
+        // ----------------------------------------------
 
-        Arrays.sort(shortlisted);
+        Arrays.sort(draftable);
 
-        // -----------------------------------------------
-        // Step 5: Build final output
-        // -----------------------------------------------
+        // ----------------------------------------------
+        // Step 5: Build output
+        // ----------------------------------------------
 
         StringBuilder result =
                 new StringBuilder();
 
         for (int i = 0;
-             i < shortlisted.length;
+             i < draftable.length;
              i++) {
 
-            // Add separator between candidates
+            // Add separator after first player
             if (i > 0) {
                 result.append(" | ");
             }
 
             result.append(i + 1)
                   .append(". ")
-                  .append(shortlisted[i].getName())
-                  .append(" (")
-                  .append(shortlisted[i].getCompositeScore())
-                  .append(")");
+                  .append(draftable[i].getName());
         }
 
         return result.toString();
     }
 
-    // ----------------------------------------------------
-    // Main method
-    // ----------------------------------------------------
+    // ==================================================
+    // MAIN METHOD
+    // ==================================================
+
     public static void main(String[] args) {
 
-        Candidate[] candidates = {
+        Player[] players = {
 
-            new Candidate(
-                    "Aisha",
-                    8.2,
-                    40
+            new Player(
+                "Virat",
+                15,
+                48.0,
+                false
             ),
 
-            new Candidate(
-                    "Rohit",
-                    6.8,
-                    65
+            new Player(
+                "Rahul",
+                7,
+                55.0,
+                false
             ),
 
-            new Candidate(
-                    "Meena",
-                    6.0,
-                    90
+            new Player(
+                "Sameer",
+                3,
+                60.0,
+                false
             ),
 
-            new Candidate(
-                    "Karan",
-                    7.5,
-                    20
+            new Player(
+                "Dev",
+                12,
+                20.0,
+                true
             )
         };
 
         String result =
-                shortlistAndRank(candidates);
+                draftAndRank(players);
 
         System.out.println(result);
     }

@@ -1,50 +1,36 @@
-import java.util.Arrays;
-
 public class Problem3 {
 
-    static int[] findTopThreeScores(int[] scores) {
+    static String findMinMaxSpread(int[] scores) {
 
-        // Start with the smallest possible integer.
-        // This allows any normal score to replace it.
-        int first = Integer.MIN_VALUE;
-        int second = Integer.MIN_VALUE;
-        int third = Integer.MIN_VALUE;
+        // Assume the first element is initially
+        // both the minimum and maximum
+        int min = scores[0];
+        int max = scores[0];
 
-        // Visit every score exactly once
-        for (int score : scores) {
+        // Start from index 1 because index 0
+        // was already used for initialization
+        for (int i = 1;
+             i < scores.length;
+             i++) {
 
-            // If score is greater than or equal to first
-            if (score >= first) {
-
-                // Old second moves to third
-                third = second;
-
-                // Old first moves to second
-                second = first;
-
-                // New score becomes first
-                first = score;
+            // Check whether current value is smaller
+            if (scores[i] < min) {
+                min = scores[i];
             }
 
-            // Otherwise, check whether score belongs in second
-            else if (score >= second) {
-
-                // Old second moves to third
-                third = second;
-
-                // Current score becomes second
-                second = score;
-            }
-
-            // Otherwise, check whether score belongs in third
-            else if (score >= third) {
-
-                third = score;
+            // Check whether current value is larger
+            if (scores[i] > max) {
+                max = scores[i];
             }
         }
 
-        // Return top three scores
-        return new int[]{first, second, third};
+        // Calculate difference
+        int spread = max - min;
+
+        // Return final formatted result
+        return "Min: " + min
+                + " | Max: " + max
+                + " | Spread: " + spread;
     }
 
     public static void main(String[] args) {
@@ -53,8 +39,8 @@ public class Problem3 {
             45, 82, 79, 90, 33, 90, 61
         };
 
-        int[] result = findTopThreeScores(scores);
-
-        System.out.println(Arrays.toString(result));
+        System.out.println(
+            findMinMaxSpread(scores)
+        );
     }
 }
