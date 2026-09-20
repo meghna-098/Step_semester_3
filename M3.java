@@ -1,85 +1,83 @@
 public class M3 {
 
-    static class Course {
+    static class Employee {
 
         // Instance fields
-        String code;
-        String title;
-        int credits;
-        int labCredits;
+        String empId;
+        String empName;
+        double salary;
+        boolean isIntern;
 
         // -----------------------------------------
-        // Four-argument constructor
+        // Constructor for permanent employee
         // -----------------------------------------
-        public Course(
-                String code,
-                String title,
-                int credits,
-                int labCredits) {
+        public Employee(
+                String empId,
+                String empName,
+                double salary) {
 
-            this.code = code;
-            this.title = title;
-            this.credits = credits;
-            this.labCredits = labCredits;
+            this.empId = empId;
+            this.empName = empName;
+            this.salary = salary;
+
+            // Permanent employee
+            this.isIntern = false;
         }
 
         // -----------------------------------------
-        // Three-argument constructor
+        // Constructor for intern
         // -----------------------------------------
-        public Course(
-                String code,
-                String title,
-                int credits) {
+        public Employee(
+                String empId,
+                String empName) {
 
-            // Call four-argument constructor
-            // and set labCredits to 0
+            // Call the three-argument constructor
             this(
-                code,
-                title,
-                credits,
+                empId,
+                empName,
                 0
             );
+
+            // Change intern status
+            this.isIntern = true;
         }
 
         // -----------------------------------------
-        // Calculate total credits
+        // Print employee information
         // -----------------------------------------
-        public int totalCredits() {
+        public void printProfile() {
 
-            return credits + labCredits;
+            System.out.println(
+                empId
+                + " | "
+                + empName
+                + " | Rs "
+                + salary
+                + " | Intern: "
+                + isIntern
+            );
         }
     }
 
     public static void main(String[] args) {
 
-        // Theory-only course
-        Course theoryCourse =
-            new Course(
-                "21CSC201J",
-                "Data Structures",
-                4
+        // Permanent employee
+        Employee permanent =
+            new Employee(
+                "E-101",
+                "Divya",
+                65000
             );
 
-        // Course with lab
-        Course labCourse =
-            new Course(
-                "21CSC205L",
-                "DSA Lab",
-                3,
-                1
+        // Intern
+        Employee intern =
+            new Employee(
+                "E-102",
+                "Arjun"
             );
 
-        // Print total credits
-        System.out.println(
-            theoryCourse.code
-            + " total credits: "
-            + theoryCourse.totalCredits()
-        );
-
-        System.out.println(
-            labCourse.code
-            + " total credits: "
-            + labCourse.totalCredits()
-        );
+        // Print both profiles
+        permanent.printProfile();
+        intern.printProfile();
     }
 }

@@ -1,75 +1,81 @@
 public class M5 {
 
-    static class Student {
+    static class Employee {
 
         // -----------------------------------------
         // Instance fields
+        // Every Employee has its own values
         // -----------------------------------------
 
-        String name;
-        int attendance;
+        String empName;
+        double salary;
 
         // -----------------------------------------
         // Static fields
-        // Shared by all Student objects
+        // Shared by all Employee objects
         // -----------------------------------------
 
-        static String collegeName =
-            "SRM Institute of Science and Technology";
+        static String companyName =
+            "Bright Horizon Technologies";
 
-        static int studentCount = 0;
+        static int employeeCount = 0;
 
         // -----------------------------------------
         // Constructor
         // -----------------------------------------
 
-        Student(
-                String name,
-                int attendance) {
+        Employee(
+                String empName,
+                double salary) {
 
-            this.name = name;
-            this.attendance = attendance;
+            this.empName = empName;
+            this.salary = salary;
 
-            // Increase count whenever an object
-            // is created
-            studentCount++;
+            // Increase count every time
+            // an Employee object is created
+            employeeCount++;
         }
 
         // -----------------------------------------
         // Static method
         // -----------------------------------------
 
-        static void printCollegeInfo() {
+        static void printCompanyInfo() {
 
             System.out.println(
-                collegeName
+                companyName
             );
 
             System.out.println(
-                "Students created: "
-                + studentCount
+                "Employees on record: "
+                + employeeCount
             );
         }
     }
 
     public static void main(String[] args) {
 
-        // Create first student
-        Student student1 =
-            new Student(
+        // Create three Employee objects
+
+        Employee employee1 =
+            new Employee(
                 "Ravi",
-                90
+                50000
             );
 
-        // Create second student
-        Student student2 =
-            new Student(
+        Employee employee2 =
+            new Employee(
                 "Anitha",
-                85
+                60000
             );
 
-        // Call static method
-        // using the class name
-        Student.printCollegeInfo();
+        Employee employee3 =
+            new Employee(
+                "Karthik",
+                55000
+            );
+
+        // Call static method using class name
+        Employee.printCompanyInfo();
     }
 }
