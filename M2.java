@@ -1,97 +1,98 @@
 public class M2 {
 
-    static class MessWallet {
+    static class PayrollAccount {
 
-        // Private field
-        private double balance;
+        // Private fields
+        private double basicSalary;
+        private double bonus;
 
         // Constructor
-        public MessWallet(double openingBalance) {
+        public PayrollAccount(double openingSalary) {
 
-            if (openingBalance < 0) {
+            if (openingSalary < 0) {
 
                 System.out.println(
-                    "Warning: Negative opening balance. "
-                    + "Starting at 0."
+                    "Warning: Negative basic salary. "
+                    + "Starting at Rs 0.0"
                 );
 
-                balance = 0;
+                basicSalary = 0;
 
             } else {
 
-                balance = openingBalance;
+                basicSalary = openingSalary;
             }
+
+            // Bonus starts at zero
+            bonus = 0;
         }
 
-        // Add money
-        public void topUp(double amount) {
+        // Add bonus
+        public void creditBonus(double amount) {
 
             if (amount <= 0) {
 
                 System.out.println(
-                    "Top-up rejected: amount must be positive"
+                    "Bonus rejected: amount must be positive"
                 );
 
             } else {
 
-                balance += amount;
+                bonus += amount;
 
                 System.out.println(
-                    "Balance after top-up: "
-                    + balance
+                    "Bonus credited: Rs "
+                    + amount
                 );
             }
         }
 
-        // Deduct money
-        public void deduct(double amount) {
+        // Deduct tax
+        public void deductTax(double percent) {
 
-            if (amount <= 0) {
-
-                System.out.println(
-                    "Deduction rejected: amount must be positive"
-                );
-
-            } else if (amount > balance) {
+            if (percent < 0 || percent > 100) {
 
                 System.out.println(
-                    "Deduct rejected: insufficient balance"
+                    "Tax rejected: percent must be "
+                    + "between 0 and 100"
                 );
 
             } else {
 
-                balance -= amount;
+                basicSalary =
+                    basicSalary
+                    - (basicSalary * percent / 100);
 
                 System.out.println(
-                    "Balance after deduction: "
-                    + balance
+                    "Tax deducted: "
+                    + percent + "%"
                 );
             }
         }
 
         // Getter
-        public double getBalance() {
+        public double getNetSalary() {
 
-            return balance;
+            return basicSalary + bonus;
         }
     }
 
     public static void main(String[] args) {
 
-        // Create wallet
-        MessWallet wallet =
-            new MessWallet(500);
+        // Opening salary
+        PayrollAccount account =
+            new PayrollAccount(50000);
 
-        // Add money
-        wallet.topUp(200);
+        // Add bonus
+        account.creditBonus(5000);
 
-        // Try to deduct more than balance
-        wallet.deduct(1000);
+        // Deduct 10% tax
+        account.deductTax(10);
 
-        // Read final balance
+        // Display final salary
         System.out.println(
-            "Final balance: "
-            + wallet.getBalance()
+            "Net salary: Rs "
+            + account.getNetSalary()
         );
     }
 }

@@ -1,56 +1,60 @@
 public class M4 {
 
-    static class IdCard {
+    static class HallTicket {
 
-        String name;
-        int booksIssued;
+        String studentName;
+        int seatNumber;
 
         // Constructor
-        IdCard(
-                String name,
-                int booksIssued) {
+        HallTicket(
+                String studentName,
+                int seatNumber) {
 
-            this.name = name;
-            this.booksIssued = booksIssued;
+            this.studentName = studentName;
+            this.seatNumber = seatNumber;
         }
     }
 
     public static void main(String[] args) {
 
-        // Create one object
-        IdCard ravi =
-            new IdCard("Ravi", 0);
+        // Create Priya's object
+        HallTicket priya =
+            new HallTicket(
+                "Priya",
+                0
+            );
 
-        // Both variables point to
-        // the SAME object
-        IdCard duplicate = ravi;
+        // Point another variable
+        // to the SAME object
+        HallTicket copy = priya;
 
-        // Change object using second reference
-        duplicate.booksIssued = 3;
+        // Change through copy
+        copy.seatNumber = 45;
 
-        // Create a completely separate object
-        IdCard separate =
-            new IdCard("Ravi", 3);
+        // Create a separate object
+        HallTicket separate =
+            new HallTicket(
+                "Priya",
+                45
+            );
 
-        // Print booksIssued using first reference
+        // Print seat number through first reference
         System.out.println(
-            "Ravi's booksIssued "
+            "Priya's seatNumber "
             + "(via first variable): "
-            + ravi.booksIssued
+            + priya.seatNumber
         );
 
-        // Check whether duplicate and ravi
-        // point to the same object
+        // Check same object
         System.out.println(
-            "duplicate == ravi: "
-            + (duplicate == ravi)
+            "copy == priya: "
+            + (copy == priya)
         );
 
-        // Check whether separate and ravi
-        // point to the same object
+        // Check separate object
         System.out.println(
-            "separate == ravi: "
-            + (separate == ravi)
+            "separate == priya: "
+            + (separate == priya)
         );
     }
 }

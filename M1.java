@@ -1,78 +1,78 @@
 public class M1 {
 
-    // -----------------------------------------
-    // PlacementRecord class
-    // -----------------------------------------
-    static class PlacementRecord {
+    static class BookInventory {
 
-        // Instance fields
-        String studentName;
-        String company;
-        double packageLpa;
+        // Instance variables
+        String title;
+        String author;
+        int copiesAvailable;
 
         // Constructor
-        PlacementRecord(
-                String studentName,
-                String company,
-                double packageLpa) {
+        BookInventory(
+                String title,
+                String author,
+                int copiesAvailable) {
 
-            this.studentName = studentName;
-            this.company = company;
-            this.packageLpa = packageLpa;
+            this.title = title;
+            this.author = author;
+            this.copiesAvailable = copiesAvailable;
         }
 
         // Instance method
-        void printRecord() {
+        void printEntry() {
 
             System.out.println(
-                studentName
-                + " -> "
-                + company
-                + " @ "
-                + packageLpa
-                + " LPA"
+                title + " by "
+                + author + " - "
+                + copiesAvailable
+                + " copies available"
             );
         }
     }
 
-    // -----------------------------------------
-    // Main method
-    // -----------------------------------------
     public static void main(String[] args) {
 
-        // Create three objects
-        PlacementRecord student1 =
-            new PlacementRecord(
-                "Ravi",
-                "TCS",
-                4.5
+        // Create four BookInventory objects
+        BookInventory book1 =
+            new BookInventory(
+                "Clean Code",
+                "Robert C. Martin",
+                3
             );
 
-        PlacementRecord student2 =
-            new PlacementRecord(
-                "Anitha",
-                "Zoho",
-                6.2
+        BookInventory book2 =
+            new BookInventory(
+                "Effective Java",
+                "Joshua Bloch",
+                5
             );
 
-        PlacementRecord student3 =
-            new PlacementRecord(
-                "Karthik",
-                "Infosys",
-                4.0
+        BookInventory book3 =
+            new BookInventory(
+                "Refactoring",
+                "Martin Fowler",
+                0
+            );
+
+        BookInventory book4 =
+            new BookInventory(
+                "Design Patterns",
+                "GoF",
+                2
             );
 
         // Store objects in an array
-        PlacementRecord[] records = {
-            student1,
-            student2,
-            student3
+        BookInventory[] books = {
+            book1,
+            book2,
+            book3,
+            book4
         };
 
-        // Print every record
-        for (int i = 0; i < records.length; i++) {
+        // Print each book
+        for (int i = 0; i < books.length; i++) {
 
-            records[i].printRecord();
+            books[i].printEntry();
         }
     }
 }
